@@ -3,296 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOVELY BEAT 159</title>
+    <title>LOVELY BEAT 159 - RESSO EXPERIENCE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-main: #06060c;
-            --bg-sidebar: #0b0b14;
-            --card-bg: #121224;
+            --bg-dark: #0a0a12;
             --primary-neon: #00ffcc;
-            --accent-pink: #d946ef;
             --text-main: #ffffff;
-            --text-dim: #7e7e9a;
+            --text-dim: rgba(255, 255, 255, 0.6);
+            --card-bg: rgba(255, 255, 255, 0.07);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); display: flex; min-height: 100vh; overflow-x: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
 
-        /* --- SIDEBAR LAYOUT --- */
-        .sidebar { width: 240px; background-color: var(--bg-sidebar); padding: 25px 20px; display: flex; flex-direction: column; border-right: 1px solid rgba(255, 255, 255, 0.03); shrink: 0; }
-        .logo-area { display: flex; align-items: center; gap: 10px; margin-bottom: 35px; }
-        .logo-area i { color: var(--primary-neon); font-size: 24px; text-shadow: 0 0 10px rgba(0, 255, 204, 0.4); }
-        .logo-text h2 { font-size: 16px; font-weight: 800; letter-spacing: 1px; }
-        .logo-text p { font-size: 10px; color: var(--primary-neon); font-weight: bold; }
+        /* Full Screen Phone View Wrapper for Resso Setup */
+        .resso-container { width: 100%; max-width: 450px; height: 100vh; background: linear-gradient(180deg, #12122c 0%, #05050a 100%); position: relative; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Top Bar with Search Embedded Engine */
+        .top-search-bar { position: absolute; top: 20px; left: 0; width: 100%; padding: 0 20px; z-index: 10; display: flex; gap: 10px; }
+        .top-search-bar input { flex: 1; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 25px; color: #fff; font-size: 14px; outline: none; backdrop-filter: blur(10px); }
+        .top-search-bar input:focus { border-color: var(--primary-neon); }
+        .top-search-bar button { background: var(--primary-neon); color: #000; border: none; width: 45px; height: 45px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 12px rgba(0, 255, 204, 0.3); }
+
+        /* Background Video Wrapper (Invisible Video, Audible Sound Engine) */
+        .hidden-engine { position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; visibility: hidden; }
+
+        /* Resso Main Immersive Album Art Player Interface */
+        .player-disk-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 20px; text-align: center; }
         
-        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 15px; }
-        .nav-item a { display: flex; align-items: center; gap: 15px; color: var(--text-dim); text-decoration: none; font-size: 13px; font-weight: 500; padding: 10px 15px; border-radius: 10px; transition: 0.2s; }
-        .nav-item.active a, .nav-item a:hover { color: var(--text-main); background: rgba(0, 255, 204, 0.08); border-left: 3px solid var(--primary-neon); }
+        .album-art-wrapper { width: 260px; height: 260px; border-radius: 50%; border: 4px solid rgba(255, 255, 255, 0.05); padding: 10px; background: rgba(255, 255, 255, 0.02); animation: spin 20s linear infinite; animation-play-state: paused; margin-bottom: 40px; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+        .album-art-wrapper.playing { animation-play-state: running; border-color: var(--primary-neon); box-shadow: 0 0 30px rgba(0, 255, 204, 0.2); }
+        .album-art-wrapper img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 
-        /* --- MAIN CONTENT AREA --- */
-        .main-content { flex: 1; padding: 30px; display: flex; flex-direction: column; gap: 30px; overflow-y: auto; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Search Bar Header */
-        .search-container { display: flex; gap: 10px; width: 100%; max-width: 450px; margin-bottom: -10px; }
-        .search-container input { flex: 1; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); padding: 12px 18px; border-radius: 25px; color: #fff; font-size: 14px; outline: none; }
-        .search-container input:focus { border-color: var(--primary-neon); }
-        .search-container button { background: var(--primary-neon); color: #000; border: none; padding: 0 20px; border-radius: 25px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .search-container button:hover { opacity: 0.9; box-shadow: 0 0 10px var(--primary-neon); }
+        /* Song Description Meta info overlay */
+        .song-meta { margin-bottom: 30px; width: 100%; padding: 0 20px; }
+        .song-meta h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.5px; }
+        .song-meta p { font-size: 14px; color: var(--primary-neon); font-weight: 500; }
 
-        /* Hidden Master Streaming Engine */
-        .engine-box { width: 100%; height: 120px; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid var(--primary-neon); margin-bottom: 5px; }
-
-        /* Hero Banner */
-        .hero-banner { background: linear-gradient(135deg, #0e0e1e 0%, #171730 100%); border-radius: 20px; padding: 35px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255, 255, 255, 0.05); position: relative; overflow: hidden; }
-        .hero-text h1 { font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 10px; }
-        .hero-text h1 span { background: linear-gradient(to right, var(--primary-neon), var(--accent-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-text p { color: var(--text-dim); font-size: 13px; max-width: 400px; margin-bottom: 20px; line-height: 1.5; }
-        .status-playing { font-size: 13px; color: var(--primary-neon); font-weight: bold; margin-bottom: 15px; display: block; }
-
-        /* Counter/Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        .stat-box { background: var(--card-bg); padding: 15px 20px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.02); display: flex; align-items: center; gap: 15px; }
-        .stat-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-        .stat-icon.cyan { background: rgba(0, 255, 204, 0.1); color: var(--primary-neon); }
-        .stat-icon.pink { background: rgba(217, 70, 239, 0.1); color: var(--accent-pink); }
-        .stat-info h3 { font-size: 16px; font-weight: 700; }
-        .stat-info p { font-size: 11px; color: var(--text-dim); text-transform: uppercase; }
-
-        /* Genres Badges */
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .section-header h2 { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        /* Dynamic Visualizer Waveform Simulators */
+        .visualizer-container { display: flex; gap: 4px; height: 30px; align-items: flex-end; margin-bottom: 40px; }
+        .bar { width: 3px; height: 5px; background-color: var(--primary-neon); border-radius: 2px; transition: 0.2s; }
         
-        .genre-capsules { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
-        .genre-capsules::-webkit-scrollbar { height: 0px; }
-        .capsule { background: #16162a; border: 1px solid rgba(255,255,255,0.05); padding: 8px 18px; border-radius: 20px; font-size: 12px; color: #fff; cursor: pointer; white-space: nowrap; transition: 0.2s; }
-        .capsule:hover, .capsule.active { border-color: var(--primary-neon); background: rgba(0,255,204,0.1); color: var(--primary-neon); }
+        /* Bottom Audio Management System Dashboard Controls */
+        .controls-panel { width: 100%; padding: 30px 20px 40px 20px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        
+        /* ProgressBar Control Scrubber element */
+        .scrubber-box { width: 100%; display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-dim); }
+        .progress-bar-bg { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; cursor: pointer; position: relative; }
+        .progress-bar-current { width: 0%; height: 100%; background: var(--primary-neon); border-radius: 2px; position: absolute; top: 0; left: 0; }
 
-        /* Albums Grid Layout */
-        .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .music-card { background: var(--card-bg); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02); cursor: pointer; transition: 0.2s; }
-        .music-card:hover { transform: translateY(-4px); border-color: var(--primary-neon); }
-        .card-img-box { width: 100%; height: 150px; border-radius: 12px; overflow: hidden; background: #222; margin-bottom: 12px; position: relative; }
-        .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; color: var(--primary-neon); font-size: 24px; }
-        .music-card:hover .play-overlay { opacity: 1; }
-        .music-card h4 { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .music-card p { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
-
-        /* Tabular Playlist View */
-        .playlist-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: var(--card-bg); border-radius: 16px; overflow: hidden; }
-        .playlist-row { display: flex; align-items: center; padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.02); transition: 0.2s; cursor: pointer; font-size: 13px; }
-        .playlist-row:hover, .playlist-row.active { background: rgba(0, 255, 204, 0.05); color: var(--primary-neon); }
-        .row-num { width: 30px; color: var(--text-dim); font-size: 12px; }
-        .row-cover { width: 32px; height: 32px; border-radius: 6px; background: rgba(255,255,255,0.1); color: #fff; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 12px; }
-        .playlist-row:hover .row-cover, .playlist-row.active .row-cover { background: var(--primary-neon); color: #000; }
-        .row-details { flex: 1; min-width: 0; }
-        .row-details h5 { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .row-details p { font-size: 11px; color: var(--text-dim); }
-        .row-genre { width: 120px; color: var(--text-dim); font-size: 12px; text-align: right; }
-
-        @media (max-width: 900px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .cards-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+        .buttons-row { display: flex; align-items: center; gap: 35px; width: 100%; justify-content: center; }
+        .btn-secondary { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; opacity: 0.7; transition: 0.2s; }
+        .btn-secondary:hover { opacity: 1; color: var(--primary-neon); }
+        .btn-main-play { width: 65px; height: 65px; border-radius: 50%; background: #fff; border: none; color: #000; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 4px 15px rgba(255,255,255,0.2); }
+        .btn-main-play:hover { transform: scale(1.05); background: var(--primary-neon); }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR NAVIGATION -->
-    <div class="sidebar">
-        <div class="logo-area">
-            <i class="fa-solid fa-circle-nodes"></i>
-            <div class="logo-text">
-                <h2>LOVELY BEAT</h2>
-                <p>159</p>
-            </div>
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item active"><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
-            <li class="nav-item"><a href="#"><i class="fa-solid fa-compact-disc"></i> Library</a></li>
-            <li class="nav-item"><a href="#"><i class="fa-solid fa-list"></i> Playlist</a></li>
-            <li class="nav-item"><a href="#"><i class="fa-solid fa-music"></i> Genres</a></li>
-        </ul>
-    </div>
-
-    <!-- MAIN DASHBOARD CONTENT -->
-    <div class="main-content">
+    <div class="resso-container">
         
-        <!-- INTELLIGENT EMBED SEARCH ENGINE -->
-        <div class="search-container">
-            <input type="text" id="embedSearch" placeholder="Artist ya song ka naam search karein...">
-            <button onclick="searchEmbed()"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        <div class="top-search-bar">
+            <input type="text" id="trackInput" placeholder="Koi bhi song ya artist search karein...">
+            <button onclick="searchAndPlay()"><i class="fa-solid fa-play"></i></button>
         </div>
 
-        <!-- HIGH-TECH ACCENT STREAM EMBED PANEL -->
-        <div class="engine-box">
-            <iframe id="scPlayer" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/499311144&color=%2300ffcc&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>
+        <div class="hidden-engine">
+            <iframe id="youtubeEngine" src="https://www.youtube.com/embed/ScMzIvxBSL4?enablejsapi=1&autoplay=0&controls=0&rel=0"></iframe>
         </div>
 
-        <!-- HERO BANNER SECTION -->
-        <div class="hero-banner">
-            <div class="hero-text">
-                <span id="nowPlayingText" class="status-playing">● Engine Loaded: Ready to Stream</span>
-                <h1>Pulsing to<br><span>Your Rhythm</span></h1>
-                <p>Discover the deepest cuts and highest energy tracks in the ultimate digital music hall.</p>
+        <div class="player-disk-area">
+            <div class="album-art-wrapper id="artDisc">
+                <img id="trackArt" src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=500&auto=format&fit=crop" alt="Resso Cover">
             </div>
-        </div>
 
-        <!-- STATISTICS DISPLAYS -->
-        <div class="stats-grid">
-            <div class="stat-box">
-                <div class="stat-icon cyan"><i class="fa-solid fa-music"></i></div>
-                <div class="stat-info"><h3>55</h3><p>Tracks</p></div>
+            <div class="song-meta">
+                <h2 id="displayTitle">Dharmik Juke Box</h2>
+                <p id="displayArtist">Automatic Smart Sync</p>
             </div>
-            <div class="stat-box">
-                <div class="stat-icon pink"><i class="fa-solid fa-play"></i></div>
-                <div class="stat-info"><h3>145.9K</h3><p>Total Plays</p></div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-icon cyan"><i class="fa-solid fa-download"></i></div>
-                <div class="stat-info"><h3>59.1K</h3><p>Downloads</p></div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-icon pink"><i class="fa-solid fa-sliders"></i></div>
-                <div class="stat-info"><h3>14</h3><p>Genres</p></div>
+
+            <div class="visualizer-container" id="visualizer">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
             </div>
         </div>
 
-        <!-- EXPLORE GENRES BADGES -->
-        <div>
-            <div class="section-header">
-                <h2>Explore Genres</h2>
-            </div>
-            <div class="genre-capsules">
-                <div class="capsule active" onclick="loadQueryStream('Punjabi New Hits')">Punjabi</div>
-                <div class="capsule" onclick="loadQueryStream('Bhojpuri Dhamaka')">Bhojpuri</div>
-                <div class="capsule" onclick="loadQueryStream('Haryanvi Songs')">Haryanvi</div>
-                <div class="capsule" onclick="loadQueryStream('Bollywood Romantic')">Hindi Romantic</div>
-                <div class="capsule" onclick="loadQueryStream('New HipHop Beats')">Hip-Hop</div>
-                <div class="capsule" onclick="loadQueryStream('Gurbani Shabad')">Gurbani</div>
-                <div class="capsule" onclick="loadQueryStream('Dharmik Bhajan')">Dharmik</div>
-            </div>
-        </div>
-
-        <!-- TRENDING ALBUMS GRID VIEW -->
-        <div>
-            <div class="section-header">
-                <h2>Trending Now</h2>
-            </div>
-            <div class="cards-grid">
-                <!-- Track 1 -->
-                <div class="music-card" onclick="loadDirectTrack('499311144', 'Khol Aankhen Mohabbat - Rafi')">
-                    <div class="card-img-box">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop" alt="track">
-                        <div class="play-overlay"><i class="fa-solid fa-circle-play"></i></div>
-                    </div>
-                    <h4>Khol Aankhen Mohabbat</h4>
-                    <p>Mohammed Rafi</p>
-                </div>
-                <!-- Track 2 -->
-                <div class="music-card" onclick="loadDirectTrack('297372224', 'Mohabbat Zinda Rehti Hai')">
-                    <div class="card-img-box">
-                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&auto=format&fit=crop" alt="track">
-                        <div class="play-overlay"><i class="fa-solid fa-circle-play"></i></div>
-                    </div>
-                    <h4>Mohabbat Zinda Rehti Hai</h4>
-                    <p>Mohammed Rafi</p>
-                </div>
-                <!-- Track 3 -->
-                <div class="music-card" onclick="loadDirectTrack('1283856112', 'Bohemian Rhapsody Remix')">
-                    <div class="card-img-box">
-                        <img src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=500&auto=format&fit=crop" alt="track">
-                        <div class="play-overlay"><i class="fa-solid fa-circle-play"></i></div>
-                    </div>
-                    <h4>Bohemian Rhapsody</h4>
-                    <p>Queen</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- FRESH DROPS TRACK LIST -->
-        <div style="margin-bottom: 40px;">
-            <div class="section-header">
-                <h2>Fresh Drops</h2>
-            </div>
-            <div class="playlist-table">
-                <!-- Row 1 -->
-                <div class="playlist-row" onclick="loadDirectTrack('640167093', 'Old D.J.S Bhajans Juke Box')">
-                    <div class="row-num">1</div>
-                    <div class="row-cover">D</div>
-                    <div class="row-details">
-                        <h5>Old D.J.S Bhajans Juke Box Hindi</h5>
-                        <p>D.J.S Dharmik</p>
-                    </div>
-                    <div class="row-genre">Dharmik</div>
-                </div>
-                <!-- Row 2 -->
-                <div class="playlist-row" onclick="loadDirectTrack('1984260122', 'Satguru Ji Bhajan')">
-                    <div class="row-num">2</div>
-                    <div class="row-cover">D</div>
-                    <div class="row-details">
-                        <h5>Old D.J.S Bhajans - Satguru Ji</h5>
-                        <p>D.J.S Dharmik</p>
-                    </div>
-                    <div class="row-genre">Dharmik</div>
-                </div>
-                <!-- Row 3 -->
-                <div class="playlist-row" onclick="loadDirectTrack('499311144', 'Aarti & Bhakti Special')">
-                    <div class="row-num">3</div>
-                    <div class="row-cover">O</div>
-                    <div class="row-details">
-                        <h5>Old D.J.S Bhajans Juke Box</h5>
-                        <p>D.J.S</p>
-                    </div>
-                    <div class="row-genre">Aarti & Bhakti</div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        const player = document.getElementById('scPlayer');
-        const statusText = document.getElementById('nowPlayingText');
-
-        // Function 1: Direct Player Loader (Used when card/row clicked)
-        function loadDirectTrack(trackId, trackName) {
-            player.src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${trackId}&color=%2300ffcc&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`;
-            statusText.innerText = `● Now Playing: ${trackName}`;
-            
-            // Visual row selection highlight
-            const rows = document.querySelectorAll('.playlist-row');
-            rows.forEach(r => r.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-        }
-
-        // Function 2: Query Stream (Used for Search Box & Genre Capsules)
-        function loadQueryStream(query) {
-            const encodedQuery = encodeURIComponent(query);
-            // SoundCloud Search Playlist Index Engine Bypassing Restriction
-            player.src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/search%3Fq%3D${encodedQuery}&color=%2300ffcc&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`;
-            statusText.innerText = `● Streaming Station: ${query}`;
-        }
-
-        // Search Bar Trigger
-        function searchEmbed() {
-            const query = document.getElementById('embedSearch').value.trim();
-            if(!query) {
-                alert('Pehle kuch naam toh likho bhai!');
-                return;
-            }
-            loadQueryStream(query);
-        }
-
-        // Allow capsules active class switches toggle
-        const capsules = document.querySelectorAll('.capsule');
-        capsules.forEach(capsule => {
-            capsule.addEventListener('click', function() {
-                capsules.forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    </script>
-</body>
-</html>
+        <div class="controls-panel">
+            <div class="scrubber-box">
+                <span id="currTime">0:
