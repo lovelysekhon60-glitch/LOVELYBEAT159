@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEKHON LOVELY - LOVELY BEAT 159</title>
+    <title>SEKHON LOVELY - SPOTIFY CLONE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -27,63 +27,47 @@
         .brand-text p { font-size: 9px; color: var(--primary-neon); font-weight: bold; }
 
         .menu-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-        .menu-item a { display: flex; align-items: center; gap: 12px; color: var(--text-muted); text-decoration: none; font-size: 12px; font-weight: 600; padding: 10px 12px; border-radius: 8px; transition: 0.2s; cursor: pointer; }
-        .menu-item.active a, .menu-item a:hover { color: var(--text-main); background: rgba(0, 255, 204, 0.06); }
+        .menu-item a { display: flex; align-items: center; gap: 12px; color: var(--text-muted); text-decoration: none; font-size: 12px; font-weight: 600; padding: 10px 12px; border-radius: 8px; cursor: pointer; }
+        .menu-item.active a { color: var(--text-main); background: rgba(0, 255, 204, 0.06); }
 
         /* --- MAIN DASHBOARD --- */
         .main-container { flex: 1; padding: 25px 30px; display: flex; flex-direction: column; gap: 25px; overflow-y: auto; padding-bottom: 120px; }
 
-        /* Hero Banner */
-        .hero-section { background: linear-gradient(135deg, #091314 0%, #0f172a 100%); border-radius: 16px; padding: 30px; position: relative; border: 1px solid rgba(0, 255, 204, 0.05); overflow: hidden; }
-        .hero-section h2 { font-size: 11px; color: var(--primary-neon); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
-        .hero-section h1 { font-size: 28px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
-        .hero-section h1 span { color: var(--primary-neon); }
-        .hero-section p { font-size: 12px; color: var(--text-muted); max-width: 500px; margin-bottom: 15px; }
-        .listen-btn { background: var(--primary-neon); color: #000; border: none; padding: 10px 22px; border-radius: 20px; font-weight: 700; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+        /* --- SEARCH BOX SYSTEM --- */
+        .search-wrapper { display: flex; gap: 10px; width: 100%; max-width: 500px; background: var(--card-bg); padding: 6px 12px; border-radius: 25px; border: 1px solid rgba(0, 255, 204, 0.2); }
+        .search-wrapper input { flex: 1; background: none; border: none; outline: none; color: #fff; font-size: 13px; padding-left: 5px; }
+        .search-btn { background: var(--primary-neon); color: #000; border: none; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 12px; cursor: pointer; }
 
         /* Section Title */
         .section-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
 
-        /* Trending Grid */
-        .trending-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        .trend-card { background: var(--card-bg); padding: 12px; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.02); }
-        .trend-card:hover { transform: translateY(-3px); border-color: var(--primary-neon); }
-        .img-container { width: 100%; aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: #1e293b; margin-bottom: 8px; position: relative; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; color: var(--primary-neon); font-size: 24px; }
-        .trend-card:hover .play-overlay { opacity: 1; }
-        .trend-card h4 { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .trend-card p { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
-
-        /* Table Layout */
+        /* Table Layout for Results */
         .tracks-table { background: var(--card-bg); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.01); }
         .table-row { display: flex; align-items: center; padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.02); cursor: pointer; transition: 0.2s; font-size: 12px; }
-        .table-row:hover { background: rgba(0, 255, 204, 0.04); }
+        .table-row:hover { background: rgba(0, 255, 204, 0.06); }
         .t-num { width: 30px; color: var(--text-muted); }
-        .t-icon-box { width: 28px; height: 28px; border-radius: 6px; background: rgba(0, 255, 204, 0.1); color: var(--primary-neon); display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; font-size: 11px; }
+        .t-img { width: 35px; height: 35px; border-radius: 4px; object-fit: cover; margin-right: 15px; }
         .t-details { flex: 1; }
-        .t-details h5 { font-size: 12px; font-weight: 600; }
-        .t-details p { font-size: 10px; color: var(--text-muted); }
-        .t-genre { width: 120px; color: var(--text-muted); }
-        .t-time { width: 50px; color: var(--text-muted); text-align: right; }
+        .t-details h5 { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px; }
+        .t-details p { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+        .status-msg { padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px; }
 
-        /* --- FLOATING CONTROLLER --- */
+        /* --- FLOATING PLAYER --- */
         .bottom-player-dashboard { position: fixed; bottom: 0; left: 0; width: 100%; background: #070b12; border-top: 1px solid rgba(0, 255, 204, 0.3); padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; z-index: 99999; box-shadow: 0 -8px 24px rgba(0,0,0,0.7); }
-        .dashboard-meta { display: flex; align-items: center; gap: 12px; width: 25%; }
+        .dashboard-meta { display: flex; align-items: center; gap: 12px; width: 30%; }
         .dashboard-meta img { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
-        .meta-text h5 { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+        .meta-text h5 { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
         .meta-text p { font-size: 10px; color: var(--primary-neon); }
 
-        .dashboard-center-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 50%; }
+        .dashboard-center-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 40%; }
         .core-buttons { display: flex; align-items: center; gap: 20px; }
-        .sub-btn { background: none; border: none; color: var(--text-muted); font-size: 14px; cursor: pointer; }
         .master-play-trigger { width: 38px; height: 38px; border-radius: 50%; background: #fff; color: #000; border: none; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; }
         
         .progress-box { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 450px; font-size: 10px; color: var(--text-muted); }
         .timeline-rail { flex: 1; height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; cursor: pointer; position: relative; }
         .timeline-fill { width: 0%; height: 100%; background: var(--primary-neon); border-radius: 3px; position: absolute; top: 0; left: 0; }
 
-        .dashboard-right-utils { display: flex; align-items: center; justify-content: flex-end; gap: 10px; width: 25%; font-size: 12px; color: var(--text-muted); }
+        .dashboard-right-utils { display: flex; align-items: center; justify-content: flex-end; gap: 10px; width: 30%; font-size: 11px; color: var(--primary-neon); font-weight: bold; }
     </style>
 </head>
 <body>
@@ -98,90 +82,43 @@
             </div>
         </div>
         <ul class="menu-list">
-            <li class="menu-item active"><a><i class="fa-solid fa-house"></i> Home</a></li>
-            <li class="menu-item"><a><i class="fa-solid fa-compact-disc"></i> Library</a></li>
-            <li class="menu-item"><a><i class="fa-solid fa-list-music"></i> Playlist</a></li>
+            <li class="menu-item active"><a><i class="fa-solid fa-magnifying-glass"></i> Search Console</a></li>
         </ul>
     </div>
 
-    <!-- MAIN DASHBOARD -->
+    <!-- MAIN APP CONTAINER -->
     <div class="main-container">
         
-        <!-- HERO BANNER -->
-        <div class="hero-section">
-            <h2>Streaming Station Lovely</h2>
-            <h1>Pulsing to<br><span>Your Rhythm</span></h1>
-            <p>Discover the deepest cuts and highest energy tracks in the ultimate digital music hall.</p>
-            <button class="listen-btn" onclick="playDefault()"><i class="fa-solid fa-play"></i> Play Top Track</button>
+        <!-- LIVE SEARCH BAR -->
+        <div class="search-wrapper">
+            <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted); margin-top: 8px;"></i>
+            <input type="text" id="searchQuery" placeholder="Type song name, artist (e.g. Sidhu Moose Wala, Punjabi)..." value="Sidhu Moose Wala">
+            <button class="search-btn" onclick="searchMusic()">Search Music</button>
         </div>
 
-        <!-- TRENDING NOW (TESTED WORKING AUDIO CHANNELS) -->
+        <!-- SEARCH RESULTS PANEL -->
         <div>
-            <div class="section-title"><h2>Trending Now</h2></div>
-            <div class="trending-grid">
-                
-                <div class="trend-card" onclick="playAudioStream('https://scummbar.com/mi2/MI1-CD/01%20-%20Opening%20Themes%20-%20Introduction.mp3', 'Khol Aankhen Mohabbat', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300')">
-                    <div class="img-container">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" alt="Cover">
-                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
-                    </div>
-                    <h4>Khol Aankhen Mohabbat</h4>
-                    <p>Mohammed Rafi</p>
-                </div>
-
-                <div class="trend-card" onclick="playAudioStream('https://scummbar.com/mi2/MI1-CD/02%20-%20The%20Scumm%20Bar.mp3', 'Mohabbat Zinda Rehti Hai', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300')">
-                    <div class="img-container">
-                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300" alt="Cover">
-                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
-                    </div>
-                    <h4>Mohabbat Zinda Rehti Hai</h4>
-                    <p>Mohammed Rafi</p>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- FRESH DROPS LIST -->
-        <div>
-            <div class="section-title"><h2>Fresh Drops</h2></div>
-            <div class="tracks-table">
-                
-                <div class="table-row" onclick="playAudioStream('https://scummbar.com/mi2/MI1-CD/06%20-%20The%20Voodoo%20Shop.mp3', 'Old D.J.S Bhajans Juke Box Hindi', 'D.J.S Dharmik', 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300')">
-                    <div class="t-num">1</div>
-                    <div class="t-icon-box"><i class="fa-solid fa-music"></i></div>
-                    <div class="t-details"><h5>Old D.J.S Bhajans Juke Box Hindi</h5><p>D.J.S Dharmik</p></div>
-                    <div class="t-genre">Dharmik</div>
-                    <div class="t-time">3:45</div>
-                </div>
-
-                <div class="table-row" onclick="playAudioStream('https://scummbar.com/mi2/MI1-CD/10%20-%20Following%20The%20Shopkeeper.mp3', 'Best Hindi Bhajans - Shri Ashutosh Ji', 'D.J.S Devotional', 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300')">
-                    <div class="t-num">2</div>
-                    <div class="t-icon-box"><i class="fa-solid fa-music"></i></div>
-                    <div class="t-details"><h5>Best Hindi Bhajans - Shri Ashutosh Maharaj Ji</h5><p>D.J.S Devotional</p></div>
-                    <div class="t-genre">Aarti & Bhakti</div>
-                    <div class="t-time">2:15</div>
-                </div>
-
+            <div class="section-title"><h2 id="resultsHeading">Top Results</h2></div>
+            <div class="tracks-table" id="resultsBody">
+                <div class="status-msg">Type a song name above and hit Search to fetch live tracks!</div>
             </div>
         </div>
 
     </div>
 
-    <!-- BOTTOM CONTROLLER FIXED PLAYER -->
+    <!-- FLOATING CONTROLLER FIXED PLAYER -->
     <div class="bottom-player-dashboard">
         <div class="dashboard-meta">
-            <img id="playerArt" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=100" alt="Cover">
+            <img id="playerArt" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100" alt="Cover">
             <div class="meta-text">
-                <h5 id="playerTitle">No Track Selected</h5>
-                <p id="playerArtist">Lovely Beat Audio Engine</p>
+                <h5 id="playerTitle">No Track Playing</h5>
+                <p id="playerArtist">Search Engine Live</p>
             </div>
         </div>
 
         <div class="dashboard-center-controls">
             <div class="core-buttons">
-                <button class="sub-btn"><i class="fa-solid fa-backward-step"></i></button>
                 <button class="master-play-trigger" id="globalPlayBtn" onclick="togglePlayState()"><i class="fa-solid fa-play"></i></button>
-                <button class="sub-btn"><i class="fa-solid fa-forward-step"></i></button>
             </div>
             <div class="progress-box">
                 <span id="timeCurrent">0:00</span>
@@ -193,12 +130,11 @@
         </div>
 
         <div class="dashboard-right-utils">
-            <i class="fa-solid fa-volume-high"></i>
-            <span style="font-size: 10px; font-weight: bold; color: var(--primary-neon);">LIVE PLAYER</span>
+            <i class="fa-solid fa-satellite-dish"></i> &nbsp; YOUTUBE STREAM LIVE
         </div>
     </div>
 
-    <!-- NATIVE AUDIO DRIVER -->
+    <!-- HIDDEN PLAYER ENGINE -->
     <audio id="nativeAudioProcessor" preload="auto"></audio>
 
     <script>
@@ -211,16 +147,83 @@
         const lblCurrent = document.getElementById('timeCurrent');
         const lblTotal = document.getElementById('timeTotal');
 
-        function playAudioStream(url, title, artist, artImage) {
-            audio.src = url;
-            audio.load();
-            audio.play().then(() => {
-                playBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
-            }).catch(err => console.log("Playback engine initialized."));
+        // Automatic YouTube Audio Fetcher API (Using open-source piped instance)
+        async function searchMusic() {
+            const query = document.getElementById('searchQuery').value.trim();
+            if(!query) return alert("Kuch type toh karo bhai!");
 
-            pTitle.innerText = title;
+            const resultsBody = document.getElementById('resultsBody');
+            resultsBody.innerHTML = `<div class="status-msg"><i class="fa-solid fa-spinner fa-spin"></i> Live music dhoondh raha hu, ruko...</div>`;
+
+            try {
+                // Fetching data from public API
+                const res = await fetch(`https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(query)}&filter=videos`);
+                const data = await res.json();
+
+                if(!data.items || data.items.length === 0) {
+                    resultsBody.innerHTML = `<div class="status-msg">Koi gaana nahi mila. Kuch aur search karo!</div>`;
+                    return;
+                }
+
+                resultsBody.innerHTML = ""; // Clear loader
+                
+                // Listing Top 7 found items
+                let count = 1;
+                data.items.slice(0, 7).forEach(item => {
+                    if(item.type !== 'stream') return;
+
+                    const row = document.createElement('div');
+                    row.className = "table-row";
+                    // Dynamic click to fetch pure audio directly on click
+                    row.onclick = () => loadAndPlayYouTubeAudio(item.id, item.title, item.uploaderName, item.thumbnail);
+
+                    row.innerHTML = `
+                        <div class="t-num">${count++}</div>
+                        <img class="t-img" src="${item.thumbnail}" alt="thumb">
+                        <div class="t-details">
+                            <h5>${item.title}</h5>
+                            <p>${item.uploaderName} • ${item.durationString || 'Video'}</p>
+                        </div>
+                        <div class="t-genre"><i class="fa-solid fa-play" style="color: var(--primary-neon)"></i> Play</div>
+                    `;
+                    resultsBody.appendChild(row);
+                });
+
+            } catch (err) {
+                console.error(err);
+                resultsBody.innerHTML = `<div class="status-msg" style="color: #ff4a4a;">Network issue. Dubara Search button dabaein!</div>`;
+            }
+        }
+
+        // Fetch Direct Stream Audio Link from YouTube ID
+        async function loadAndPlayYouTubeAudio(videoId, title, artist, thumbnail) {
+            pTitle.innerText = "Loading Audio...";
             pArtist.innerText = artist;
-            pArt.src = artImage;
+            pArt.src = thumbnail;
+
+            try {
+                const res = await fetch(`https://pipedapi.kavin.rocks/streams/${videoId}`);
+                const data = await res.json();
+                
+                // Pick the best audio-only stream track
+                if(data.audioStreams && data.audioStreams.length > 0) {
+                    const audioUrl = data.audioStreams[0].url;
+                    
+                    audio.src = audioUrl;
+                    audio.load();
+                    audio.play().then(() => {
+                        playBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+                        pTitle.innerText = title;
+                    }).catch(e => {
+                        pTitle.innerText = "Click Play Button Below";
+                    });
+                } else {
+                    alert("Is video ka audio stream block hai, dusra select karein!");
+                }
+            } catch (error) {
+                alert("Server busy hai, ek baar phir click karein!");
+                pTitle.innerText = "Error Loading";
+            }
         }
 
         function togglePlayState() {
@@ -234,10 +237,7 @@
             }
         }
 
-        function playDefault() {
-            playAudioStream('https://scummbar.com/mi2/MI1-CD/01%20-%20Opening%20Themes%20-%20Introduction.mp3', 'Khol Aankhen Mohabbat', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300');
-        }
-
+        // Timeline Update
         audio.addEventListener('timeupdate', () => {
             const curr = audio.currentTime;
             const dur = audio.duration || 0;
@@ -259,6 +259,9 @@
             const clickX = event.offsetX;
             audio.currentTime = (clickX / width) * audio.duration;
         }
+
+        // Run search once on boot
+        window.onload = () => { searchMusic(); };
     </script>
 </body>
 </html>
