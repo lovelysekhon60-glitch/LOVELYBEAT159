@@ -3,195 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOVELY BEAT - Premium MP3 Player</title>
+    <title>SEKHON LOVELY - Premium Music Hub</title>
     <style>
         :root {
-            --primary: #00ffcc;
-            --primary-glow: rgba(0, 255, 204, 0.4);
-            --bg: #06060c;
-            --panel: #111122;
-            --text: #ffffff;
-            --text-dim: #6c6c8c;
+            --neon-cyan: #00ffcc;
+            --neon-pink: #ff007f;
+            --bg-black: #06060c;
+            --card-bg: rgba(19, 19, 36, 0.75);
+            --btn-bg: #1a1a2e;
+            --text-white: #ffffff;
+            --text-gray: #7e7e9a;
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         
-        .mp3-container { width: 100%; max-width: 400px; background: var(--panel); border-radius: 30px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.05); text-align: center; }
-        h1 { font-size: 22px; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; text-shadow: 0 0 10px var(--primary-glow); }
+        body { 
+            background: radial-gradient(circle at center, #111125 0%, var(--bg-black) 100%); 
+            color: var(--text-white); 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 15px;
+        }
+
+        .player-wrapper {
+            width: 100%;
+            max-width: 440px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 255, 204, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .brand-header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
+        }
+
+        .brand-header p {
+            font-size: 11px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        /* The Custom Stream Embed Container */
+        .embed-container {
+            width: 100%;
+            height: 166px; /* Optimized for SoundCloud standard custom track panel */
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.15);
+            margin-bottom: 25px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--neon-pink);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        /* Smart Grid for Audience Action */
+        .grid-channels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .channel-card {
+            background: var(--btn-bg);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 14px;
+            border-radius: 14px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .channel-card:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 204, 0.1), rgba(255, 0, 127, 0.05));
+            border-color: var(--neon-cyan);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.1);
+        }
+
+        .channel-card strong {
+            display: block;
+            font-size: 14px;
+            color: var(--text-white);
+            margin-bottom: 2px;
+        }
+
+        .channel-card span {
+            font-size: 11px;
+            color: var(--text-gray);
+        }
+
+        .active-dot {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 6px;
+            height: 6px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--neon-cyan);
+            display: none;
+        }
+
+        .channel-card.active .active-dot {
+            display: block;
+        }
         
-        /* Vinyl Disk Spinner */
-        .disk-wrapper { position: relative; width: 180px; height: 180px; margin: 0 auto 25px; }
-        .vinyl-disk { width: 100%; height: 100%; background: radial-gradient(circle, #222 20%, #050505 60%, #111 100%); border-radius: 50%; border: 4px solid #333; box-shadow: 0 0 20px rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; animation: spin 4s linear infinite; animation-play-state: paused; }
-        .disk-center { width: 40px; height: 40px; background: var(--primary); border-radius: 50%; border: 5px solid #111; box-shadow: 0 0 10px var(--primary); }
-        
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .track-info { margin-bottom: 25px; }
-        .track-title { font-size: 18px; font-weight: 600; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .track-artist { font-size: 14px; color: var(--text-dim); }
-
-        /* Custom Progress Bar */
-        .progress-container { width: 100%; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-dim); }
-        .progress-bar { flex: 1; -webkit-appearance: none; appearance: none; height: 6px; background: #22223c; border-radius: 3px; outline: none; cursor: pointer; }
-        .progress-bar::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 8px var(--primary); cursor: pointer; }
-
-        /* Audio Controls UI */
-        .controls { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 25px; }
-        .control-btn { background: none; border: none; color: var(--text); font-size: 20px; cursor: pointer; transition: 0.2s; }
-        .control-btn:hover { color: var(--primary); }
-        .play-btn { width: 60px; height: 60px; background: var(--primary); color: #000; border-radius: 50%; font-size: 24px; display: flex; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 0 15px var(--primary-glow); }
-        .play-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--primary); }
-
-        /* Playlist Grid */
-        .playlist-title { text-align: left; font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .playlist { display: flex; flex-direction: column; gap: 10px; max-height: 150px; overflow-y: auto; padding-right: 5px; }
-        .playlist::-webkit-scrollbar { width: 4px; }
-        .playlist::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-        
-        .track-item { display: flex; justify-content: space-between; align-items: center; background: #18182c; padding: 12px 15px; border-radius: 12px; cursor: pointer; border: 1px solid transparent; transition: 0.2s; text-align: left; }
-        .track-item:hover { border-color: var(--primary); background: #1e1e36; }
-        .track-item.active { background: rgba(0, 255, 204, 0.1); border-color: var(--primary); color: var(--primary); }
+        .channel-card.active {
+            border-color: var(--neon-pink);
+            background: rgba(255, 0, 127, 0.08);
+        }
     </style>
 </head>
 <body>
 
-<div class="mp3-container">
-    <h1>Lovely Beat MP3</h1>
+<div class="player-wrapper">
+    <div class="brand-header">
+        <h1>Lovely Beat v2</h1>
+        <p>Premium Audio Platform</p>
+    </div>
+
+    <div class="embed-container">
+        <iframe id="audioEngine" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/499311144&color=%2300ffcc&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"></iframe>
+    </div>
+
+    <div class="section-title">Select Premium Station</div>
     
-    <div class="disk-wrapper">
-        <div class="vinyl-disk" id="vinylDisk">
-            <div class="disk-center"></div>
+    <div class="grid-channels">
+        <div class="channel-card active" onclick="switchStation(this, 'https://api.soundcloud.com/tracks/499311144')">
+            <strong>🎵 Punjabi Top 20</strong>
+            <span>Trending Tracks</span>
+            <div class="active-dot"></div>
         </div>
-    </div>
+        
+        <div class="channel-card" onclick="switchStation(this, 'https://api.soundcloud.com/tracks/297372224')">
+            <strong>💥 Bhojpuri Club</strong>
+            <span>Nonstop Bass Drop</span>
+            <div class="active-dot"></div>
+        </div>
 
-    <div class="track-info">
-        <div class="track-title" id="playerTitle">Select a Track</div>
-        <div class="track-artist" id="playerArtist">Premium Audio Stream</div>
-    </div>
+        <div class="channel-card" onclick="switchStation(this, 'https://api.soundcloud.com/tracks/1283856112')">
+            <strong>🔥 Haryanvi Vibes</strong>
+            <span>Desi Heavy Beats</span>
+            <div class="active-dot"></div>
+        </div>
 
-    <div class="progress-container">
-        <span id="currentTime">0:00</span>
-        <input type="range" class="progress-bar" id="progressBar" value="0" min="0" max="100">
-        <span id="duration">0:00</span>
-    </div>
-
-    <div class="controls">
-        <button class="control-btn" onclick="prevTrack()">⏮</button>
-        <button class="control-btn play-btn" id="playBtn" onclick="togglePlay()">▶</button>
-        <button class="control-btn" onclick="nextTrack()">⏭</button>
-    </div>
-
-    <div class="playlist-title">Exclusive Playlist</div>
-    <div class="playlist" id="playlistContainer">
-        <!-- Tracks loaded dynamically -->
+        <div class="channel-card" onclick="switchStation(this, 'https://api.soundcloud.com/tracks/640167093')">
+            <strong>❤️ Bollywood Chill</strong>
+            <span>Lo-Fi Romantic</span>
+            <div class="active-dot"></div>
+        </div>
     </div>
 </div>
 
-<audio id="mainAudio" src=""></audio>
-
 <script>
-    // Premium royalty-free standalone high-speed audio streams (Bypasses YouTube entirely)
-    const trackList = [
-        { title: "Cyberpunk Synthwave Beat", artist: "Lovely Sekhon Production", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-        { title: "Premium HipHop Bass", artist: "Lovely Sekhon Exclusive", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-        { title: "Lo-Fi Midnight Chill", artist: "Lovely Sekhon Lofi", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-        { title: "EDM Festival Anthem", artist: "Lovely Sekhon Club Mix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" }
-    ];
-
-    let currentTrackIndex = 0;
-    const audio = document.getElementById('mainAudio');
-    const playBtn = document.getElementById('playBtn');
-    const disk = document.getElementById('vinylDisk');
-    const progressBar = document.getElementById('progressBar');
-    const currentTimeEl = document.getElementById('currentTime');
-    const durationEl = document.getElementById('duration');
-
-    // Load Playlist UI
-    function initPlaylist() {
-        const container = document.getElementById('playlistContainer');
-        container.innerHTML = '';
-        trackList.forEach((track, index) => {
-            const item = document.createElement('div');
-            item.className = `track-item ${index === currentTrackIndex ? 'active' : ''}`;
-            item.onclick = () => loadTrack(index, true);
-            item.innerHTML = `<div><strong>${track.title}</strong><br><small style="color:var(--text-dim)">${track.artist}</small></div><span>▶</span>`;
-            container.appendChild(item);
-        });
-    }
-
-    function loadTrack(index, autoPlay = false) {
-        currentTrackIndex = index;
-        const track = trackList[currentTrackIndex];
-        audio.src = track.url;
-        document.getElementById('playerTitle').innerText = track.title;
-        document.getElementById('playerArtist').innerText = track.artist;
+    function switchStation(element, trackApiUrl) {
+        // Remove active state from all cards
+        const cards = document.querySelectorAll('.channel-card');
+        cards.forEach(card => card.classList.remove('active'));
         
-        // Refresh active styles
-        initPlaylist();
-
-        if (autoPlay) {
-            audio.play();
-            playBtn.innerText = "⏸";
-            disk.style.animationPlayState = "running";
-        } else {
-            playBtn.innerText = "▶";
-            disk.style.animationPlayState = "paused";
-        }
+        // Add active state to clicked card
+        element.classList.add('active');
+        
+        // Update SoundCloud Player Engine smoothly with Cyan Theme Accent
+        const engine = document.getElementById('audioEngine');
+        const encodedUrl = encodeURIComponent(trackApiUrl);
+        
+        engine.src = `https://w.soundcloud.com/player/?url=${encodedUrl}&color=%2300ffcc&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`;
     }
-
-    function togglePlay() {
-        if (audio.paused) {
-            audio.play();
-            playBtn.innerText = "⏸";
-            disk.style.animationPlayState = "running";
-        } else {
-            audio.pause();
-            playBtn.innerText = "▶";
-            disk.style.animationPlayState = "paused";
-        }
-    }
-
-    function nextTrack() {
-        let next = currentTrackIndex + 1;
-        if (next >= trackList.length) next = 0;
-        loadTrack(next, true);
-    }
-
-    function prevTrack() {
-        let prev = currentTrackIndex - 1;
-        if (prev < 0) prev = trackList.length - 1;
-        loadTrack(prev, true);
-    }
-
-    // Progress bar calculations
-    audio.addEventListener('timeupdate', () => {
-        if (audio.duration) {
-            const progress = (audio.currentTime / audio.duration) * 100;
-            progressBar.value = progress;
-            
-            // Format time
-            let curMins = Math.floor(audio.currentTime / 60);
-            let curSecs = Math.floor(audio.currentTime % 60);
-            let durMins = Math.floor(audio.duration / 60);
-            let durSecs = Math.floor(audio.duration % 60);
-            
-            if (curSecs < 10) curSecs = "0" + curSecs;
-            if (durSecs < 10) durSecs = "0" + durSecs;
-            
-            currentTimeEl.innerText = `${curMins}:${curSecs}`;
-            durationEl.innerText = `${durMins}:${durSecs}`;
-        }
-    });
-
-    progressBar.addEventListener('input', () => {
-        const seekTime = (progressBar.value / 100) * audio.duration;
-        audio.currentTime = seekTime;
-    });
-
-    audio.addEventListener('ended', nextTrack);
-
-    // Bootstrap first load
-    loadTrack(0, false);
 </script>
 
 </body>
