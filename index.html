@@ -3,280 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOVELY BEAT 159</title>
+    <title>SEKHON LOVELY - LOVELY BEAT 159</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-main: #06060c;
-            --bg-sidebar: #0b0b14;
-            --card-bg: #121224;
+            --bg-darker: #050508;
+            --bg-main: #0b0f19;
+            --sidebar-bg: #070a10;
+            --card-bg: #121824;
             --primary-neon: #00ffcc;
-            --accent-pink: #d946ef;
             --text-main: #ffffff;
-            --text-dim: #7e7e9a;
+            --text-muted: #64748b;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; user-select: none; }
         body { background-color: var(--bg-main); color: var(--text-main); display: flex; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- SIDEBAR LAYOUT --- */
-        .sidebar { width: 240px; background-color: var(--bg-sidebar); padding: 25px 20px; display: flex; flex-direction: column; border-right: 1px solid rgba(255, 255, 255, 0.03); shrink: 0; }
-        .logo-area { display: flex; align-items: center; gap: 10px; margin-bottom: 35px; }
-        .logo-area i { color: var(--primary-neon); font-size: 24px; text-shadow: 0 0 10px rgba(0, 255, 204, 0.4); }
-        .logo-text h2 { font-size: 16px; font-weight: 800; letter-spacing: 1px; }
-        .logo-text p { font-size: 10px; color: var(--primary-neon); font-weight: bold; }
+        /* --- SIDEBAR --- */
+        .sidebar { width: 220px; background-color: var(--sidebar-bg); padding: 20px; display: flex; flex-direction: column; shrink: 0; border-right: 1px solid rgba(255,255,255,0.02); }
+        .brand { display: flex; align-items: center; gap: 8px; margin-bottom: 30px; padding-left: 5px; }
+        .brand i { color: var(--primary-neon); font-size: 20px; text-shadow: 0 0 8px rgba(0, 255, 204, 0.4); }
+        .brand-text h2 { font-size: 13px; font-weight: 800; letter-spacing: 0.5px; }
+        .brand-text p { font-size: 9px; color: var(--primary-neon); font-weight: bold; }
+
+        .menu-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .menu-item a { display: flex; align-items: center; gap: 12px; color: var(--text-muted); text-decoration: none; font-size: 12px; font-weight: 600; padding: 10px 12px; border-radius: 8px; transition: 0.2s; cursor: pointer; }
+        .menu-item.active a, .menu-item a:hover { color: var(--text-main); background: rgba(0, 255, 204, 0.06); }
+
+        /* --- MAIN DASHBOARD --- */
+        .main-container { flex: 1; padding: 25px 30px; display: flex; flex-direction: column; gap: 25px; overflow-y: auto; padding-bottom: 120px; }
+
+        /* Hero Banner */
+        .hero-section { background: linear-gradient(135deg, #091314 0%, #0f172a 100%); border-radius: 16px; padding: 30px; position: relative; border: 1px solid rgba(0, 255, 204, 0.05); overflow: hidden; }
+        .hero-section h2 { font-size: 11px; color: var(--primary-neon); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+        .hero-section h1 { font-size: 28px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
+        .hero-section h1 span { color: var(--primary-neon); }
+        .hero-section p { font-size: 12px; color: var(--text-muted); max-width: 500px; margin-bottom: 15px; }
+        .listen-btn { background: var(--primary-neon); color: #000; border: none; padding: 10px 22px; border-radius: 20px; font-weight: 700; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .listen-btn:hover { transform: scale(1.03); box-shadow: 0 4px 12px rgba(0, 255, 204, 0.2); }
+
+        /* Stats Row */
+        .counters-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .counter-card { background: var(--card-bg); padding: 12px 18px; border-radius: 12px; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.01); }
+        .counter-card i { font-size: 14px; color: var(--primary-neon); background: rgba(0, 255, 204, 0.05); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .counter-info h4 { font-size: 15px; font-weight: 700; }
+        .counter-info p { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+
+        /* Genres */
+        .section-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .genre-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+        .genre-scroll::-webkit-scrollbar { height: 0px; }
+        .genre-pill { background: #161e2e; border: 1px solid rgba(255,255,255,0.04); padding: 6px 14px; border-radius: 15px; font-size: 11px; cursor: pointer; white-space: nowrap; transition: 0.2s; color: #cbd5e1; }
+        .genre-pill:hover { border-color: var(--primary-neon); background: rgba(0,255,204,0.04); color: #fff; }
+
+        /* Trending Grid */
+        .trending-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; }
+        .trend-card { background: var(--card-bg); padding: 12px; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.02); }
+        .trend-card:hover { transform: translateY(-3px); border-color: var(--primary-neon); }
+        .img-container { width: 100%; aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: #1e293b; margin-bottom: 8px; position: relative; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; color: var(--primary-neon); font-size: 24px; }
+        .trend-card:hover .play-overlay { opacity: 1; }
+        .trend-card h4 { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .trend-card p { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+        /* Table Layout */
+        .tracks-table { background: var(--card-bg); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.01); }
+        .table-row { display: flex; align-items: center; padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.02); cursor: pointer; transition: 0.2s; font-size: 12px; }
+        .table-row:hover { background: rgba(0, 255, 204, 0.04); }
+        .t-num { width: 30px; color: var(--text-muted); }
+        .t-icon-box { width: 28px; height: 28px; border-radius: 6px; background: rgba(0, 255, 204, 0.1); color: var(--primary-neon); display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; font-size: 11px; }
+        .t-details { flex: 1; }
+        .t-details h5 { font-size: 12px; font-weight: 600; }
+        .t-details p { font-size: 10px; color: var(--text-muted); }
+        .t-genre { width: 120px; color: var(--text-muted); }
+        .t-time { width: 50px; color: var(--text-muted); text-align: right; }
+
+        /* --- FLOATING CONTROLLER FIXED PLAYER --- */
+        .bottom-player-dashboard { position: fixed; bottom: 0; left: 0; width: 100%; background: #070b12; border-top: 1px solid rgba(0, 255, 204, 0.3); padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; z-index: 99999; box-shadow: 0 -8px 24px rgba(0,0,0,0.7); }
+        .dashboard-meta { display: flex; align-items: center; gap: 12px; width: 25%; }
+        .dashboard-meta img { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
+        .meta-text h5 { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+        .meta-text p { font-size: 10px; color: var(--primary-neon); }
+
+        .dashboard-center-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 50%; }
+        .core-buttons { display: flex; align-items: center; gap: 20px; }
+        .sub-btn { background: none; border: none; color: var(--text-muted); font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .sub-btn:hover { color: #fff; }
+        .master-play-trigger { width: 38px; height: 38px; border-radius: 50%; background: #fff; color: #000; border: none; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .master-play-trigger:hover { transform: scale(1.05); background: var(--primary-neon); }
         
-        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 15px; }
-        .nav-item a { display: flex; align-items: center; gap: 15px; color: var(--text-dim); text-decoration: none; font-size: 13px; font-weight: 500; padding: 10px 15px; border-radius: 10px; transition: 0.2s; }
-        .nav-item.active a, .nav-item a:hover { color: var(--text-main); background: rgba(0, 255, 204, 0.08); border-left: 3px solid var(--primary-neon); }
+        .progress-box { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 450px; font-size: 10px; color: var(--text-muted); }
+        .timeline-rail { flex: 1; height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; cursor: pointer; position: relative; }
+        .timeline-fill { width: 0%; height: 100%; background: var(--primary-neon); border-radius: 3px; position: absolute; top: 0; left: 0; }
 
-        /* --- MAIN CONTENT AREA --- */
-        .main-content { flex: 1; padding: 30px; display: flex; flex-direction: column; gap: 30px; overflow-y: auto; }
-
-        /* Clean Fixed Floating Bottom Resso Controller */
-        .resso-mini-player { position: fixed; bottom: 20px; right: 20px; left: 260px; background: rgba(18, 18, 36, 0.95); border: 1px solid var(--primary-neon); border-radius: 16px; padding: 15px 25px; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(10px); z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; }
-        .mini-info { display: flex; align-items: center; gap: 15px; }
-        .mini-info img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
-        .mini-text h4 { font-size: 14px; font-weight: 600; }
-        .mini-text p { font-size: 11px; color: var(--primary-neon); }
-        .mini-controls { display: flex; align-items: center; gap: 20px; }
-        .control-btn { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; transition: 0.2s; }
-        .control-btn:hover { color: var(--primary-neon); }
-        .main-play-trigger { width: 40px; height: 40px; border-radius: 50%; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-
-        /* Hero Banner with Status */
-        .hero-banner { background: linear-gradient(135deg, #0e0e1e 0%, #171730 100%); border-radius: 20px; padding: 35px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255, 255, 255, 0.05); }
-        .hero-text h1 { font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 10px; }
-        .hero-text h1 span { background: linear-gradient(to right, var(--primary-neon), var(--accent-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .status-playing { font-size: 12px; color: var(--primary-neon); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; }
-
-        /* Counter/Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        .stat-box { background: var(--card-bg); padding: 15px 20px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.02); display: flex; align-items: center; gap: 15px; }
-        .stat-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-        .stat-icon.cyan { background: rgba(0, 255, 204, 0.1); color: var(--primary-neon); }
-        .stat-icon.pink { background: rgba(217, 70, 239, 0.1); color: var(--accent-pink); }
-        .stat-info h3 { font-size: 16px; font-weight: 700; }
-        .stat-info p { font-size: 11px; color: var(--text-dim); text-transform: uppercase; }
-
-        /* Genres Badges Scroll */
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .section-header h2 { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        .genre-capsules { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
-        .genre-capsules::-webkit-scrollbar { height: 0px; }
-        .capsule { background: #16162a; border: 1px solid rgba(255,255,255,0.05); padding: 8px 18px; border-radius: 20px; font-size: 12px; color: #fff; cursor: pointer; white-space: nowrap; transition: 0.2s; }
-        .capsule:hover { border-color: var(--primary-neon); background: rgba(0,255,204,0.05); }
-
-        /* Albums Grid Layout */
-        .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .music-card { background: var(--card-bg); padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02); cursor: pointer; transition: 0.2s; position: relative; }
-        .music-card:hover { transform: translateY(-4px); border-color: var(--primary-neon); }
-        .card-img-box { width: 100%; height: 160px; border-radius: 12px; overflow: hidden; background: #222; margin-bottom: 12px; position: relative; }
-        .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .play-hover-btn { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; color: var(--primary-neon); font-size: 28px; }
-        .music-card:hover .play-hover-btn { opacity: 1; }
-        .music-card h4 { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        /* Tabular Playlist View ("Fresh Drops") */
-        .playlist-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: var(--card-bg); border-radius: 16px; overflow: hidden; }
-        .playlist-row { display: flex; align-items: center; padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.02); transition: 0.2s; cursor: pointer; font-size: 13px; }
-        .playlist-row:hover { background: rgba(0, 255, 204, 0.04); }
-        .row-num { width: 30px; color: var(--text-dim); font-size: 12px; }
-        .row-cover { width: 32px; height: 32px; border-radius: 6px; background: var(--primary-neon); color: #000; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 12px; }
-        .row-details { flex: 1; min-width: 0; }
-        .row-details h5 { font-size: 13px; font-weight: 600; }
-        .row-genre { width: 120px; color: var(--text-dim); font-size: 12px; text-align: right; }
-
-        @media (max-width: 900px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .cards-grid { grid-template-columns: repeat(2, 1fr); .resso-mini-player { left: 20px; } }
-        }
+        .dashboard-right-utils { display: flex; align-items: center; justify-content: flex-end; gap: 10px; width: 25%; font-size: 12px; color: var(--text-muted); }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR NAVIGATION -->
     <div class="sidebar">
-        <div class="logo-area">
-            <i class="fa-solid fa-circle-nodes"></i>
-            <div class="logo-text">
+        <div class="brand">
+            <i class="fa-solid fa-bolt"></i>
+            <div class="brand-text">
                 <h2>LOVELY BEAT</h2>
                 <p>159</p>
             </div>
         </div>
-        <ul class="nav-menu">
-            <li class="nav-item active"><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
-            <li class="nav-item"><a href="#"><i class="fa-solid fa-compact-disc"></i> Library</a></li>
-            <li class="nav-item"><a href="#"><i class="fa-solid fa-list"></i> Playlist</a></li>
-            <li class="nav-item"><a href="#"><i class="fa-solid fa-music"></i> Genres</a></li>
+        <ul class="menu-list">
+            <li class="menu-item active"><a><i class="fa-solid fa-house"></i> Home</a></li>
+            <li class="menu-item"><a><i class="fa-solid fa-compact-disc"></i> Library</a></li>
+            <li class="menu-item"><a><i class="fa-solid fa-list-music"></i> Playlist</a></li>
+            <li class="menu-item"><a><i class="fa-solid fa-masks-theater"></i> Genres</a></li>
         </ul>
     </div>
 
-    <!-- MAIN DASHBOARD CONTENT -->
-    <div class="main-content">
+    <div class="main-container">
         
-        <!-- HERO BANNER SECTION -->
-        <div class="hero-banner">
-            <div class="hero-text">
-                <span id="engineStatus" class="status-playing">● System Engine Live</span>
-                <h1>Pulsing to<br><span>Your Rhythm</span></h1>
-                <p>Discover the deepest cuts and highest energy tracks in the ultimate digital music hall.</p>
+        <div class="hero-section">
+            <h2>Streaming Station Lovely</h2>
+            <h1>Pulsing to<br><span>Your Rhythm</span></h1>
+            <p>Discover the deepest cuts and highest energy tracks in the ultimate digital music hall.</p>
+            <button class="listen-btn" onclick="playDefault()"><i class="fa-solid fa-play"></i> Start Listening</button>
+        </div>
+
+        <div class="counters-row">
+            <div class="counter-card">
+                <i class="fa-solid fa-music"></i>
+                <div class="counter-info"><h4>55</h4><p>Tracks</p></div>
+            </div>
+            <div class="counter-card">
+                <i class="fa-solid fa-play"></i>
+                <div class="counter-info"><h4>145.9K</h4><p>Total Plays</p></div>
+            </div>
+            <div class="counter-card">
+                <i class="fa-solid fa-arrow-down"></i>
+                <div class="counter-info"><h4>59.1K</h4><p>Downloads</p></div>
+            </div>
+            <div class="counter-card">
+                <i class="fa-solid fa-layer-group"></i>
+                <div class="counter-info"><h4>14</h4><p>Genres</p></div>
             </div>
         </div>
 
-        <!-- STATISTICS DISPLAYS -->
-        <div class="stats-grid">
-            <div class="stat-box">
-                <div class="stat-icon cyan"><i class="fa-solid fa-music"></i></div>
-                <div class="stat-info"><h3>55</h3><p>Tracks</p></div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-icon pink"><i class="fa-solid fa-play"></i></div>
-                <div class="stat-info"><h3>145.9K</h3><p>Total Plays</p></div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-icon cyan"><i class="fa-solid fa-download"></i></div>
-                <div class="stat-info"><h3>59.1K</h3><p>Downloads</p></div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-icon pink"><i class="fa-solid fa-sliders"></i></div>
-                <div class="stat-info"><h3>14</h3><p>Genres</p></div>
-            </div>
-        </div>
-
-        <!-- SEARCH INPUT BOX (NO EMBED REFILED) -->
         <div>
-            <div class="section-header"><h2>Smart Search Channel</h2></div>
-            <div style="display:flex; gap:10px; max-width:400px;">
-                <input type="text" id="internalSearch" placeholder="Type artist name (e.g. Sidhu, Rafi)..." style="flex:1; background:var(--card-bg); border:1px solid rgba(255,255,255,0.05); padding:12px; border-radius:20px; color:#fff; outline:none;">
-                <button onclick="triggerSearchEngine()" style="background:var(--primary-neon); border:none; padding:0 20px; border-radius:20px; font-weight:bold; cursor:pointer; color:#000;">Find</button>
+            <div class="section-title"><h2>Explore Genres</h2></div>
+            <div class="genre-scroll">
+                <div class="genre-pill">Electronic</div>
+                <div class="genre-pill">Rock</div>
+                <div class="genre-pill">Pop</div>
+                <div class="genre-pill">Dharmik</div>
+                <div class="genre-pill">Bhajan</div>
+                <div class="genre-pill">Gurbani</div>
+                <div class="genre-pill">Hindi</div>
             </div>
         </div>
 
-        <!-- EXPLORE GENRES -->
         <div>
-            <div class="section-header"><h2>Explore Genres</h2></div>
-            <div class="genre-capsules">
-                <div class="capsule" onclick="filterGenre('Dharmik')">Dharmik</div>
-                <div class="capsule" onclick="filterGenre('Bhajan')">Bhajan</div>
-                <div class="capsule" onclick="filterGenre('Punjabi')">Punjabi</div>
-                <div class="capsule" onclick="filterGenre('Hindi')">Hindi</div>
-            </div>
-        </div>
-
-        <!-- TRENDING ALBUMS GRID -->
-        <div>
-            <div class="section-header"><h2>Trending Now</h2></div>
-            <div class="cards-grid">
-                <!-- Card 1 -->
-                <div class="music-card" onclick="playSong('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Khol Aankhen Mohabbat', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200')">
-                    <div class="card-img-box">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop" alt="track">
-                        <div class="play-hover-btn"><i class="fa-solid fa-circle-play"></i></div>
+            <div class="section-title"><h2>Trending Now</h2></div>
+            <div class="trending-grid">
+                
+                <div class="trend-card" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Khol Aankhen Mohabbat', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200')">
+                    <div class="img-container">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" alt="Cover">
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
                     </div>
                     <h4>Khol Aankhen Mohabbat</h4>
                     <p>Mohammed Rafi</p>
                 </div>
-                <!-- Card 2 -->
-                <div class="music-card" onclick="playSong('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'Mohabbat Zinda Rehti Hai', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200')">
-                    <div class="card-img-box">
-                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&auto=format&fit=crop" alt="track">
-                        <div class="play-hover-btn"><i class="fa-solid fa-circle-play"></i></div>
+
+                <div class="trend-card" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'Mohabbat Zinda Rehti Hai', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200')">
+                    <div class="img-container">
+                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300" alt="Cover">
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
                     </div>
                     <h4>Mohabbat Zinda Rehti Hai</h4>
                     <p>Mohammed Rafi</p>
                 </div>
+
+                <div class="trend-card" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 'Bohemian Rhapsody', 'Queen', 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200')">
+                    <div class="img-container">
+                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300" alt="Cover">
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                    <h4>Bohemian Rhapsody</h4>
+                    <p>Queen</p>
+                </div>
+
+                <div class="trend-card" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 'Jo Tum Todo Piya', 'Lata Mangeshkar', 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=200')">
+                    <div class="img-container">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300" alt="Cover">
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                    <h4>Jo Tum Todo Piya</h4>
+                    <p>Lata Mangeshkar</p>
+                </div>
+
             </div>
         </div>
 
-        <!-- FRESH DROPS -->
-        <div style="margin-bottom: 100px;">
-            <div class="section-header"><h2>Fresh Drops</h2></div>
-            <div class="playlist-table" id="playlistBody">
-                <div class="playlist-row" onclick="playSong('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 'Old D.J.S Bhajans Juke Box', 'D.J.S Dharmik', 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=200')">
-                    <div class="row-num">1</div>
-                    <div class="row-cover">D</div>
-                    <div class="row-details"><h5>Old D.J.S Bhajans Juke Box Hindi</h5><p>D.J.S Dharmik</p></div>
-                    <div class="row-genre">Dharmik</div>
+        <div>
+            <div class="section-title"><h2>Fresh Drops</h2></div>
+            <div class="tracks-table">
+                
+                <div class="table-row" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', 'Old D.J.S Bhajans Juke Box Hindi', 'D.J.S Dharmik', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200')">
+                    <div class="t-num">1</div>
+                    <div class="t-icon-box"><i class="fa-solid fa-music"></i></div>
+                    <div class="t-details"><h5>Old D.J.S Bhajans Juke Box Hindi</h5><p>D.J.S Dharmik</p></div>
+                    <div class="t-genre">Dharmik</div>
+                    <div class="t-time">60:03</div>
                 </div>
-                <div class="playlist-row" onclick="playSong('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 'Satguru Ji Bhajan', 'D.J.S Dharmik', 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=200')">
-                    <div class="row-num">2</div>
-                    <div class="row-cover">D</div>
-                    <div class="row-details"><h5>Old D.J.S Bhajans - Satguru Ji</h5><p>D.J.S Dharmik</p></div>
-                    <div class="row-genre">Dharmik</div>
+
+                <div class="table-row" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', 'Old D.J.S Bhajans - Satguru Ji', 'D.J.S Dharmik', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200')">
+                    <div class="t-num">2</div>
+                    <div class="t-icon-box"><i class="fa-solid fa-music"></i></div>
+                    <div class="t-details"><h5>Old D.J.S Bhajans - Satguru Ji</h5><p>D.J.S Dharmik</p></div>
+                    <div class="t-genre">Dharmik</div>
+                    <div class="t-time">60:03</div>
                 </div>
+
+                <div class="table-row" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3', 'Best Hindi Bhajans - Shri Ashutosh Ji', 'D.J.S Devotional', 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200')">
+                    <div class="t-num">3</div>
+                    <div class="t-icon-box"><i class="fa-solid fa-music"></i></div>
+                    <div class="t-details"><h5>Best Hindi Bhajans - Shri Ashutosh Maharaj Ji</h5><p>D.J.S Devotional</p></div>
+                    <div class="t-genre">Aarti & Bhakti</div>
+                    <div class="t-time">40:15</div>
+                </div>
+
             </div>
         </div>
 
     </div>
 
-    <!-- FLOATING RESSO SMART BAR CONTROL UNIT -->
-    <div class="resso-mini-player" id="miniPlayer">
-        <div class="mini-info">
-            <img id="miniArt" src="" alt="cover">
-            <div class="mini-text">
-                <h4 id="miniTitle">Song Title</h4>
-                <p id="miniArtist">Artist Name</p>
+    <div class="bottom-player-dashboard">
+        <div class="dashboard-meta">
+            <img id="playerArt" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=100" alt="Cover">
+            <div class="meta-text">
+                <h5 id="playerTitle">No Track Selected</h5>
+                <p id="playerArtist">Lovely Beat Audio Engine</p>
             </div>
         </div>
-        <div class="mini-controls">
-            <button class="control-btn main-play-trigger" onclick="toggleAudio()"><i class="fa-solid fa-pause" id="miniPlayIcon"></i></button>
+
+        <div class="dashboard-center-controls">
+            <div class="core-buttons">
+                <button class="sub-btn"><i class="fa-solid fa-backward-step"></i></button>
+                <button class="master-play-trigger" id="globalPlayBtn" onclick="togglePlayState()"><i class="fa-solid fa-play"></i></button>
+                <button class="sub-btn"><i class="fa-solid fa-forward-step"></i></button>
+            </div>
+            <div class="progress-box">
+                <span id="timeCurrent">0:00</span>
+                <div class="timeline-rail" onclick="manualSeek(event)">
+                    <div class="timeline-fill" id="timeFill"></div>
+                </div>
+                <span id="timeTotal">0:00</span>
+            </div>
+        </div>
+
+        <div class="dashboard-right-utils">
+            <i class="fa-solid fa-volume-high"></i>
+            <span style="font-size: 10px; font-weight: bold; color: var(--primary-neon);">ENGINE LIVE</span>
         </div>
     </div>
 
-    <!-- PURE HTML5 BACKGROUND AUDIO ENGINE -->
-    <audio id="globalAudioEngine" style="display:none;"></audio>
+    <audio id="nativeAudioProcessor"></audio>
 
     <script>
-        const audioEngine = document.getElementById('globalAudioEngine');
-        const miniPlayer = document.getElementById('miniPlayer');
-        const miniPlayIcon = document.getElementById('miniPlayIcon');
-        const engineStatus = document.getElementById('engineStatus');
+        const audio = document.getElementById('nativeAudioProcessor');
+        const playBtn = document.getElementById('globalPlayBtn');
+        const timeFill = document.getElementById('timeFill');
+        const pTitle = document.getElementById('playerTitle');
+        const pArtist = document.getElementById('playerArtist');
+        const pArt = document.getElementById('playerArt');
+        const lblCurrent = document.getElementById('timeCurrent');
+        const lblTotal = document.getElementById('timeTotal');
 
-        // Core Player Function
-        function playSong(url, title, artist, artUrl) {
-            audioEngine.src = url;
-            audioEngine.play();
-            
-            // Populate floating UI details
-            document.getElementById('miniTitle').innerText = title;
-            document.getElementById('miniArtist').innerText = artist;
-            document.getElementById('miniArt').src = artUrl;
-            
-            // Show player layout smoothly
-            miniPlayer.style.display = 'flex';
-            engineStatus.innerText = `● NOW PLAYING: ${title}`;
-            miniPlayIcon.className = "fa-solid fa-pause";
+        // Clean Custom Stream Function
+        document.addEventListener('click', function(e) {
+            // Prevent text copying/selection glitches during massive clicks
+        });
+
+        function playAudioStream(url, title, artist, artImage) {
+            audio.src = url;
+            audio.play().then(() => {
+                playBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+            }).catch(err => console.log("Playback interaction trigger active."));
+
+            pTitle.innerText = title;
+            pArtist.innerText = artist;
+            pArt.src = artImage;
         }
 
-        function toggleAudio() {
-            if (audioEngine.paused) {
-                audioEngine.play();
-                miniPlayIcon.className = "fa-solid fa-pause";
+        function togglePlayState() {
+            if(!audio.src) return;
+            if(audio.paused) {
+                audio.play();
+                playBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
             } else {
-                audioEngine.background = true;
-                audioEngine.pause();
-                miniPlayIcon.className = "fa-solid fa-play";
+                audio.pause();
+                playBtn.innerHTML = `<i class="fa-solid fa-play"></i>`;
             }
         }
 
-        // Smart Search Handler
-        function triggerSearchEngine() {
-            const query = document.getElementById('internalSearch').value.toLowerCase().trim();
-            if(!query) return;
-            
-            // Simulate direct local engine database stream search bypass
-            if(query.includes('sidhu') || query.includes('punjabi')) {
-                playSong('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', 'Sidhu Beats Special', 'Lovely Beat Remix', 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=200');
-            } else {
-                playSong('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Search Match Found', 'Top Results', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200');
-            }
+        function playDefault() {
+            playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Khol Aankhen Mohabbat', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300');
         }
 
-        function filterGenre(genre) {
-            engineStatus.innerText = `● STATION SYNCED: ${genre}`;
-            playSong('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', `${genre} Nonstop Mix`, 'Lovely Beat Live', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200');
+        // Native Audio Timeline Track Refresh
+        audio.addEventListener('timeupdate', () => {
+            const curr = audio.currentTime;
+            const dur = audio.duration || 0;
+            const percent = (curr / dur) * 100;
+            timeFill.style.width = percent + '%';
+
+            // Time counters format
+            let minC = Math.floor(curr / 60);
+            let secC = Math.floor(curr % 60);
+            lblCurrent.innerText = `${minC}:${secC < 10 ? '0' + secC : secC}`;
+
+            let minD = Math.floor(dur / 60);
+            let secD = Math.floor(dur % 60);
+            lblTotal.innerText = dur ? `${minD}:${secD < 10 ? '0' + secD : secD}` : '0:00';
+        });
+
+        function manualSeek(event) {
+            if(!audio.duration) return;
+            const width = event.currentTarget.clientWidth;
+            const clickX = event.offsetX;
+            audio.currentTime = (clickX / width) * audio.duration;
         }
     </script>
 </body>
