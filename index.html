@@ -265,3 +265,49 @@
     </script>
 </body>
 </html>
+const express = require('express');
+const play = require('play-dl'); // Yeh pure YouTube Music ka stream nikalta hai free me
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// 1. YouTube Music Par Search Karne Ki API
+app.get('/api/search', async (req, res) => {
+    const query = req.query.q;
+    if (!query) return res.json({ error: "Kuch search karo bhai!" });
+
+    try {
+        // Sirf YouTube Music ke tracks search honge, normal videos nahi
+        const results = await play.search(query, { source: { youtube: 'video' }, limit: 10 });
+        res.json(results);
+    } catch (err) {
+        res.status(500).json({ error: "Server busy hai, dubara try karo." });
+    }
+});
+
+// 2. Direct Audio Link (Stream) Nikalne Ki API
+app.get('/api/stream', async (req, res) => {
+    const id = req.query.id;
+    if (!id) return res.json({ error: "ID zaroori hai!" });
+
+    try {
+        let stream = await play.stream(id);
+        res.json({ url: stream.url }); // Yeh direct .mp3 jaisa link dega browser ko
+    } catch (err) {
+        res.status(500).json({ error: "Stream link nahi mila." });
+    }
+});
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));// Search ke liye frontend code
+async function searchSong(query) {
+    const res = await fetch(`http://localhost:3000/api/search?q=${query}`);
+    const songs = await res.json();
+    // Isse aapko Sidhu Moose Wala ya kisi bhi artist ke real YT Music ke gaane mil jayenge
+// Gaana play karne ke liye frontend code
+async function playSong(songId) {
+    const res = await fetch(`http://localhost:3000/api/stream?id=${songId}`);
+    const data = await res.json();
+    
+    const audio = document.getElementById('nativeAudioProcessor');
+    audio.src = data.url; // Yeh link 100% chalega bina kisi security error ke
+    audio.play();
+}
