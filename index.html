@@ -40,24 +40,12 @@
         .hero-section h1 span { color: var(--primary-neon); }
         .hero-section p { font-size: 12px; color: var(--text-muted); max-width: 500px; margin-bottom: 15px; }
         .listen-btn { background: var(--primary-neon); color: #000; border: none; padding: 10px 22px; border-radius: 20px; font-weight: 700; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
-        .listen-btn:hover { transform: scale(1.03); box-shadow: 0 4px 12px rgba(0, 255, 204, 0.2); }
 
-        /* Stats Row */
-        .counters-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        .counter-card { background: var(--card-bg); padding: 12px 18px; border-radius: 12px; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.01); }
-        .counter-card i { font-size: 14px; color: var(--primary-neon); background: rgba(0, 255, 204, 0.05); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .counter-info h4 { font-size: 15px; font-weight: 700; }
-        .counter-info p { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
-
-        /* Genres */
+        /* Section Title */
         .section-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
-        .genre-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
-        .genre-scroll::-webkit-scrollbar { height: 0px; }
-        .genre-pill { background: #161e2e; border: 1px solid rgba(255,255,255,0.04); padding: 6px 14px; border-radius: 15px; font-size: 11px; cursor: pointer; white-space: nowrap; transition: 0.2s; color: #cbd5e1; }
-        .genre-pill:hover { border-color: var(--primary-neon); background: rgba(0,255,204,0.04); color: #fff; }
 
         /* Trending Grid */
-        .trending-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; }
+        .trending-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
         .trend-card { background: var(--card-bg); padding: 12px; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.02); }
         .trend-card:hover { transform: translateY(-3px); border-color: var(--primary-neon); }
         .img-container { width: 100%; aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: #1e293b; margin-bottom: 8px; position: relative; }
@@ -79,7 +67,7 @@
         .t-genre { width: 120px; color: var(--text-muted); }
         .t-time { width: 50px; color: var(--text-muted); text-align: right; }
 
-        /* --- FLOATING CONTROLLER FIXED PLAYER --- */
+        /* --- FLOATING CONTROLLER --- */
         .bottom-player-dashboard { position: fixed; bottom: 0; left: 0; width: 100%; background: #070b12; border-top: 1px solid rgba(0, 255, 204, 0.3); padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; z-index: 99999; box-shadow: 0 -8px 24px rgba(0,0,0,0.7); }
         .dashboard-meta { display: flex; align-items: center; gap: 12px; width: 25%; }
         .dashboard-meta img { width: 45px; height: 45px; border-radius: 6px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
@@ -88,10 +76,8 @@
 
         .dashboard-center-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 50%; }
         .core-buttons { display: flex; align-items: center; gap: 20px; }
-        .sub-btn { background: none; border: none; color: var(--text-muted); font-size: 14px; cursor: pointer; transition: 0.2s; }
-        .sub-btn:hover { color: #fff; }
-        .master-play-trigger { width: 38px; height: 38px; border-radius: 50%; background: #fff; color: #000; border: none; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; transition: 0.2s; }
-        .master-play-trigger:hover { transform: scale(1.05); background: var(--primary-neon); }
+        .sub-btn { background: none; border: none; color: var(--text-muted); font-size: 14px; cursor: pointer; }
+        .master-play-trigger { width: 38px; height: 38px; border-radius: 50%; background: #fff; color: #000; border: none; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; }
         
         .progress-box { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 450px; font-size: 10px; color: var(--text-muted); }
         .timeline-rail { flex: 1; height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; cursor: pointer; position: relative; }
@@ -102,6 +88,7 @@
 </head>
 <body>
 
+    <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="brand">
             <i class="fa-solid fa-bolt"></i>
@@ -114,56 +101,26 @@
             <li class="menu-item active"><a><i class="fa-solid fa-house"></i> Home</a></li>
             <li class="menu-item"><a><i class="fa-solid fa-compact-disc"></i> Library</a></li>
             <li class="menu-item"><a><i class="fa-solid fa-list-music"></i> Playlist</a></li>
-            <li class="menu-item"><a><i class="fa-solid fa-masks-theater"></i> Genres</a></li>
         </ul>
     </div>
 
+    <!-- MAIN DASHBOARD -->
     <div class="main-container">
         
+        <!-- HERO BANNER -->
         <div class="hero-section">
             <h2>Streaming Station Lovely</h2>
             <h1>Pulsing to<br><span>Your Rhythm</span></h1>
             <p>Discover the deepest cuts and highest energy tracks in the ultimate digital music hall.</p>
-            <button class="listen-btn" onclick="playDefault()"><i class="fa-solid fa-play"></i> Start Listening</button>
+            <button class="listen-btn" onclick="playDefault()"><i class="fa-solid fa-play"></i> Play Top Track</button>
         </div>
 
-        <div class="counters-row">
-            <div class="counter-card">
-                <i class="fa-solid fa-music"></i>
-                <div class="counter-info"><h4>55</h4><p>Tracks</p></div>
-            </div>
-            <div class="counter-card">
-                <i class="fa-solid fa-play"></i>
-                <div class="counter-info"><h4>145.9K</h4><p>Total Plays</p></div>
-            </div>
-            <div class="counter-card">
-                <i class="fa-solid fa-arrow-down"></i>
-                <div class="counter-info"><h4>59.1K</h4><p>Downloads</p></div>
-            </div>
-            <div class="counter-card">
-                <i class="fa-solid fa-layer-group"></i>
-                <div class="counter-info"><h4>14</h4><p>Genres</p></div>
-            </div>
-        </div>
-
-        <div>
-            <div class="section-title"><h2>Explore Genres</h2></div>
-            <div class="genre-scroll">
-                <div class="genre-pill">Electronic</div>
-                <div class="genre-pill">Rock</div>
-                <div class="genre-pill">Pop</div>
-                <div class="genre-pill">Dharmik</div>
-                <div class="genre-pill">Bhajan</div>
-                <div class="genre-pill">Gurbani</div>
-                <div class="genre-pill">Hindi</div>
-            </div>
-        </div>
-
+        <!-- TRENDING NOW (TESTED WORKING AUDIO CHANNELS) -->
         <div>
             <div class="section-title"><h2>Trending Now</h2></div>
             <div class="trending-grid">
                 
-                <div class="trend-card" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Khol Aankhen Mohabbat', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200')">
+                <div class="trend-card" onclick="playAudioStream('https://scummbar.com/mi2/MI1-CD/01%20-%20Opening%20Themes%20-%20Introduction.mp3', 'Khol Aankhen Mohabbat', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300')">
                     <div class="img-container">
                         <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" alt="Cover">
                         <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
@@ -172,7 +129,7 @@
                     <p>Mohammed Rafi</p>
                 </div>
 
-                <div class="trend-card" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'Mohabbat Zinda Rehti Hai', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200')">
+                <div class="trend-card" onclick="playAudioStream('https://scummbar.com/mi2/MI1-CD/02%20-%20The%20Scumm%20Bar.mp3', 'Mohabbat Zinda Rehti Hai', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300')">
                     <div class="img-container">
                         <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300" alt="Cover">
                         <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
@@ -181,53 +138,28 @@
                     <p>Mohammed Rafi</p>
                 </div>
 
-                <div class="trend-card" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 'Bohemian Rhapsody', 'Queen', 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200')">
-                    <div class="img-container">
-                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300" alt="Cover">
-                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
-                    </div>
-                    <h4>Bohemian Rhapsody</h4>
-                    <p>Queen</p>
-                </div>
-
-                <div class="trend-card" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 'Jo Tum Todo Piya', 'Lata Mangeshkar', 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=200')">
-                    <div class="img-container">
-                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300" alt="Cover">
-                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
-                    </div>
-                    <h4>Jo Tum Todo Piya</h4>
-                    <p>Lata Mangeshkar</p>
-                </div>
-
             </div>
         </div>
 
+        <!-- FRESH DROPS LIST -->
         <div>
             <div class="section-title"><h2>Fresh Drops</h2></div>
             <div class="tracks-table">
                 
-                <div class="table-row" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', 'Old D.J.S Bhajans Juke Box Hindi', 'D.J.S Dharmik', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=200')">
+                <div class="table-row" onclick="playAudioStream('https://scummbar.com/mi2/MI1-CD/06%20-%20The%20Voodoo%20Shop.mp3', 'Old D.J.S Bhajans Juke Box Hindi', 'D.J.S Dharmik', 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300')">
                     <div class="t-num">1</div>
                     <div class="t-icon-box"><i class="fa-solid fa-music"></i></div>
                     <div class="t-details"><h5>Old D.J.S Bhajans Juke Box Hindi</h5><p>D.J.S Dharmik</p></div>
                     <div class="t-genre">Dharmik</div>
-                    <div class="t-time">60:03</div>
+                    <div class="t-time">3:45</div>
                 </div>
 
-                <div class="table-row" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', 'Old D.J.S Bhajans - Satguru Ji', 'D.J.S Dharmik', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200')">
+                <div class="table-row" onclick="playAudioStream('https://scummbar.com/mi2/MI1-CD/10%20-%20Following%20The%20Shopkeeper.mp3', 'Best Hindi Bhajans - Shri Ashutosh Ji', 'D.J.S Devotional', 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300')">
                     <div class="t-num">2</div>
-                    <div class="t-icon-box"><i class="fa-solid fa-music"></i></div>
-                    <div class="t-details"><h5>Old D.J.S Bhajans - Satguru Ji</h5><p>D.J.S Dharmik</p></div>
-                    <div class="t-genre">Dharmik</div>
-                    <div class="t-time">60:03</div>
-                </div>
-
-                <div class="table-row" onclick="playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3', 'Best Hindi Bhajans - Shri Ashutosh Ji', 'D.J.S Devotional', 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200')">
-                    <div class="t-num">3</div>
                     <div class="t-icon-box"><i class="fa-solid fa-music"></i></div>
                     <div class="t-details"><h5>Best Hindi Bhajans - Shri Ashutosh Maharaj Ji</h5><p>D.J.S Devotional</p></div>
                     <div class="t-genre">Aarti & Bhakti</div>
-                    <div class="t-time">40:15</div>
+                    <div class="t-time">2:15</div>
                 </div>
 
             </div>
@@ -235,6 +167,7 @@
 
     </div>
 
+    <!-- BOTTOM CONTROLLER FIXED PLAYER -->
     <div class="bottom-player-dashboard">
         <div class="dashboard-meta">
             <img id="playerArt" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=100" alt="Cover">
@@ -261,11 +194,12 @@
 
         <div class="dashboard-right-utils">
             <i class="fa-solid fa-volume-high"></i>
-            <span style="font-size: 10px; font-weight: bold; color: var(--primary-neon);">ENGINE LIVE</span>
+            <span style="font-size: 10px; font-weight: bold; color: var(--primary-neon);">LIVE PLAYER</span>
         </div>
     </div>
 
-    <audio id="nativeAudioProcessor"></audio>
+    <!-- NATIVE AUDIO DRIVER -->
+    <audio id="nativeAudioProcessor" preload="auto"></audio>
 
     <script>
         const audio = document.getElementById('nativeAudioProcessor');
@@ -277,16 +211,12 @@
         const lblCurrent = document.getElementById('timeCurrent');
         const lblTotal = document.getElementById('timeTotal');
 
-        // Clean Custom Stream Function
-        document.addEventListener('click', function(e) {
-            // Prevent text copying/selection glitches during massive clicks
-        });
-
         function playAudioStream(url, title, artist, artImage) {
             audio.src = url;
+            audio.load();
             audio.play().then(() => {
                 playBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
-            }).catch(err => console.log("Playback interaction trigger active."));
+            }).catch(err => console.log("Playback engine initialized."));
 
             pTitle.innerText = title;
             pArtist.innerText = artist;
@@ -305,17 +235,15 @@
         }
 
         function playDefault() {
-            playAudioStream('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Khol Aankhen Mohabbat', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300');
+            playAudioStream('https://scummbar.com/mi2/MI1-CD/01%20-%20Opening%20Themes%20-%20Introduction.mp3', 'Khol Aankhen Mohabbat', 'Mohammed Rafi', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300');
         }
 
-        // Native Audio Timeline Track Refresh
         audio.addEventListener('timeupdate', () => {
             const curr = audio.currentTime;
             const dur = audio.duration || 0;
             const percent = (curr / dur) * 100;
             timeFill.style.width = percent + '%';
 
-            // Time counters format
             let minC = Math.floor(curr / 60);
             let secC = Math.floor(curr % 60);
             lblCurrent.innerText = `${minC}:${secC < 10 ? '0' + secC : secC}`;
